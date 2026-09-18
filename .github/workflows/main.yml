@@ -1,10 +1,10 @@
-name: Generar video
+name: Generar y subir YouTube Short
 
 on:
   workflow_dispatch:
 
 jobs:
-  generar-video:
+  generar-y-subir:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +20,9 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Instalar FFmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
 
       - name: Generar video
         run: python script.py
@@ -30,3 +32,9 @@ jobs:
         with:
           name: forge-short
           path: forge_short.mp4
+
+      - name: Subir a YouTube
+        env:
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: python upload_youtube.py

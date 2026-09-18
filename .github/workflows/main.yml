@@ -24,3 +24,9 @@ jobs:
 
       - name: Generar video
         run: python script.py
+
+      - name: Guardar video
+        uses: actions/upload-artifact@v4
+        with:
+          name: forge-short
+          path: forge_short.mp4
